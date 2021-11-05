@@ -12,8 +12,16 @@ app.use(cors())
 app.use(express.static('public'))
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.get('/list-files', (req, res) => {
+  // I want to read the directory
+  const filePath = path.resolve(__dirname, './public/files/');
+  fs.readdir(filePath, function (err, files) {
+    if (err) {
+      return console.log('Unable to scan directory: ' + err);
+    }
+    res.setHeader('Content-type', 'application/json');
+    res.end(JSON.stringify(files));
+  })
 })
 
 app.get('/convert-psd-to-pdf', async (req, res) => {
