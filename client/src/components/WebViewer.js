@@ -1,17 +1,23 @@
 import WebViewer from '@pdftron/webviewer';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-function Viewer() {
+function Viewer({ fileToLoad }) {
   const viewerRef = useRef();
+  const [instance, setInstance] = useState();
 
   useEffect(() => {
     WebViewer({
       path: '/lib',
-      initialDoc: 'http://localhost:3001/files/blank.pdf'
     }, viewerRef.current).then(instance => {
-
+        setInstance(instance);
     });
   }, []);
+
+  useEffect(() => {
+    if (instance && fileToLoad) {
+        instance.loadDocument(`http://localhost:3001/files/${fileToLoad}`)
+    }
+  }, [instance, fileToLoad]);
 
   return (
     <div className="App">

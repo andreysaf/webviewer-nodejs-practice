@@ -1,18 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Viewer from './components/WebViewer';
 import List from './components/List';
 import './App.css';
 
 function App() {
-
-  useEffect(() => {
-
-  }, []);
+  const [file, setFile] = useState('');
+  
+  const updateFileSelected = (fileSelected) => {
+    setFile(fileSelected);
+  }
 
   return (
     <div className="App">
-      <List />
-      <Viewer />
+      <List updateFileSelected={updateFileSelected} />
+      <Viewer fileToLoad={file}/>
     </div>
   );
 }

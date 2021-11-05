@@ -12,7 +12,7 @@ import {
   TableCaption,
 } from '@chakra-ui/react';
 
-function List() {
+function List({updateFileSelected}) {
   const [listOfFiles, setListOfFiles] = useState([]);
 
   const getTheFilesFromTheServer = async () => {
@@ -35,7 +35,7 @@ function List() {
     <Box p={4} w={'400px'}>
       <Heading>List of files</Heading>
       <Table variant='simple'>
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
+        <TableCaption>Select the file to display it in WebViewer</TableCaption>
         <Thead>
           <Tr>
             <Th>Name</Th>
@@ -48,7 +48,9 @@ function List() {
               const fileName = fileNameAndExt[0];
               const ext = fileNameAndExt[1];
             return (
-              <Tr key={file}>
+              <Tr key={file} onClick={() => {
+                updateFileSelected(file);
+              }}>
                 <Td>{fileName}</Td>
                 <Td>{ext.toUpperCase()}</Td>
               </Tr>
