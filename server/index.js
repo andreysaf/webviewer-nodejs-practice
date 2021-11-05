@@ -25,7 +25,7 @@ app.get('/convert-psd-to-pdf', async (req, res) => {
     {
       console.log("PDFTron SDK Advanced Imaging module not available.");
     }
-    const inputPath = path.resolve(__dirname, './public/files/test.psd');
+    const inputPath = path.resolve(__dirname, './public/files/2.psd');
     const saveToPath = path.resolve(__dirname, './public/files/blank.pdf');
     
     const doc = await PDFNet.PDFDoc.create();

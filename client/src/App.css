@@ -1,3 +1,5 @@
-#webviewerDiv {
-  height: 100vh;
+.App {
+  display: flex;
+  align-content: stretch;
+  width: 100%;
 }
