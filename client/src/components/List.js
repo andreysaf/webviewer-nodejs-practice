@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   Heading,
   Box,
@@ -13,7 +13,23 @@ import {
 } from '@chakra-ui/react';
 
 function List() {
-  useEffect(() => {}, []);
+  const [listOfFiles, setListOfFiles] = useState([]);
+
+  const getTheFilesFromTheServer = async () => {
+    const response = await fetch('http://localhost:3001/list-files');
+    const data = await response.json();
+    setListOfFiles([...data]);
+  };
+
+  useEffect(() => {
+    console.log('useEffect with no dependencies in array');
+    getTheFilesFromTheServer();
+  }, []);
+
+  useEffect(() => {
+    console.log('useEffect with listOfFiles dependency');
+    console.log(listOfFiles);
+  }, [listOfFiles]);
 
   return (
     <Box p={4} w={'400px'}>
@@ -22,35 +38,23 @@ function List() {
         <TableCaption>Imperial to metric conversion factors</TableCaption>
         <Thead>
           <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
+            <Th>Name</Th>
+            <Th>Extension</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-            <Td isNumeric>30.48</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-            <Td isNumeric>0.91444</Td>
-          </Tr>
+          {listOfFiles.map((file) => {
+              const fileNameAndExt = file.split('.');
+              const fileName = fileNameAndExt[0];
+              const ext = fileNameAndExt[1];
+            return (
+              <Tr key={file}>
+                <Td>{fileName}</Td>
+                <Td>{ext.toUpperCase()}</Td>
+              </Tr>
+            );
+          })}
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Tfoot>
       </Table>
     </Box>
   );
